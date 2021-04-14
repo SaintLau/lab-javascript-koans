@@ -257,20 +257,25 @@ describe('the JavaScript language', () => {
           return a + b + c;
         }
 
-        return internal(4, 4);
+        return internal(4, 4); //values for a and b. if c=1, the external will be 4+4+1
       }
 
-      //expect(external()).toBe();
+      expect(external()).toBe(9);
     });
 
     it('may return arrays that contains closures and so on', () => {
       function example() {
         // write the missing code here
+        return[
+          function (param) {
+            let result = 9 + param;
+            return [0, result]; //function example returns the value 0 follow by the value fo result
+          }];
       }
 
-      //expect(example()[0](1)[1]).toEqual(10);
-      //expect(example()[0](2)[1]).toEqual(11);
-      //expect(example()[0](3)[1]).toEqual(12);
+      expect(example()[0](1)[1]).toEqual(10);//return 0 and the result has 1 has the param value, it means that 1 will go on the 1st position of the array
+      expect(example()[0](2)[1]).toEqual(11);//return 0 and the result has 2 has the param value, it means that 2 will go on the 1st position of the array
+      expect(example()[0](3)[1]).toEqual(12);//return 0 and the result has 3 has the param value, it means that 3 will go on the 1st position of the array
     });
 
     it('passes primitive types as values (a copy) to functions', () => {
@@ -283,13 +288,13 @@ describe('the JavaScript language', () => {
       const z = true;
 
       example(x);
-      //expect(x).toEqual();
+      expect(x).toEqual(1);
 
       example(y);
-      //expect(y).toEqual();
+      expect(y).toEqual('example');
 
       example(z);
-      //expect(z).toEqual();
+      expect(z).toEqual(true);
     });
 
     it('passes arrays by reference', () => {
@@ -300,7 +305,7 @@ describe('the JavaScript language', () => {
       const x = [1, 2, 3];
 
       example(x);
-      //expect(x).toEqual();
+      expect(x).toEqual([100, 2, 3]);//example will receive x, so the 0 position on the array will be 100
     });
 
     it('passes objects by reference', () => {
@@ -311,7 +316,7 @@ describe('the JavaScript language', () => {
       const x = { property: 'cool!' };
 
       example(x);
-      //expect(x).toEqual();
+      expect(x).toEqual({ property: 'test'}); //it changes the value of property because of arg
     });
 
     it('may return a function as the result of invoking a function', () => {
@@ -323,9 +328,9 @@ describe('the JavaScript language', () => {
         return add;
       }
 
-      //expect(example()(1,2)).toEqual();
+      expect(example()(1,2)).toEqual(3); //the value of add that returns a + b
       const f = example();
-      //expect(f(2,2)).toEqual();
+      expect(f(2,2)).toEqual(4); //f returns add with value 2 + 2
     });
 
     it('can return closures as a function result', () => {
@@ -337,7 +342,7 @@ describe('the JavaScript language', () => {
 
       const f = plus(5);
 
-      //expect(f(3)).toBe();
+      expect(f(3)).toBe(8); //if f is = to plus(5) and if f has the value 3, 3 + 5 = 8 
     });
 
     it('can have functions that receive other functions as arguments', () => {
@@ -349,7 +354,7 @@ describe('the JavaScript language', () => {
         return arg(2, 2) + 1;
       }
 
-      //expect(example(add)).toEqual();
+      expect(example(add)).toEqual(5); //add receives (2,2), so the value is 4. example is add + 1, so 4 +1 = 5
     });
 
     it('may have functions as the input and the output', () => {
@@ -363,7 +368,7 @@ describe('the JavaScript language', () => {
         return 1;
       });
 
-      //expect(f(2)).toBe();
+      expect(f(2)).toBe(3); //f always return 1, so if f receives 2 as arg1, it will add 1 to 2 that is 3
     });
 
     it("can invoke functions indirectly using the special 'call'", () => {
@@ -371,7 +376,7 @@ describe('the JavaScript language', () => {
         return a + b;
       }
 
-      //expect(f.call(f,1,1)).toEqual();
+      expect(f.call(f,1,1)).toEqual(2); //a and b will be 1 + 1
     });
 
     it("can invoke functions indirectly using the special 'apply'", () => {
@@ -379,7 +384,7 @@ describe('the JavaScript language', () => {
         return a + b;
       }
 
-      //expect(f.apply(f, [1,1])).toEqual();
+      expect(f.apply(f, [1,1])).toEqual(2); //return a + b where a=1 and b=1
     });
 
     it("doesn't have a private scope inside blocks", () => {
@@ -388,8 +393,8 @@ describe('the JavaScript language', () => {
         j += i;
       }
 
-      //expect(i).toEqual();
-      //expect(j).toEqual();
+      expect(i).toEqual(5); //i can be 5 at max because he is < 5
+      expect(j).toEqual(10); //study this one
     });
   });
 
