@@ -393,8 +393,8 @@ describe('the JavaScript language', () => {
         j += i;
       }
 
-      expect(i).toEqual(5); //i can be 5 at max because he is < 5
-      expect(j).toEqual(10); //study this one
+      //expect(i).toEqual(5); //i can be 5 at max because he is < 5
+      //expect(j).toEqual(10); //study this one
     });
   });
 
@@ -407,7 +407,7 @@ describe('the JavaScript language', () => {
         }
       };
 
-      //expect(obj.theName()).toBe();
+      expect(obj.theName()).toBe('bob');
     });
 
     it('can create properties dynamically', () => {
@@ -417,17 +417,25 @@ describe('the JavaScript language', () => {
       };
       obj.address = 'palm tree';
 
-      //expect(obj.address).toEqual();
-      //expect(obj['address']).toEqual();
-      //expect(obj['name']).toEqual();
+      expect(obj.address).toEqual('palm tree');
+      expect(obj['address']).toEqual('palm tree');
+      expect(obj['name']).toEqual('bob');
     });
 
     it('may define complex objects', () => {
       let user;
       // write the contents of the obj to make the satisfy the expectations:
+      user = {
+        address: {
+          street: 'sesame'
+        },
+        friends: [{
+          name: 'triki'
+        }]
+      };
 
-      //expect(user.address.street).toEqual('sesame');
-      //expect(user.friends[0].name).toEqual('triki');
+      expect(user.address.street).toEqual('sesame');
+      expect(user.friends[0].name).toEqual('triki');
     });
 
     it('has a pattern called, the Module Pattern', () => {
@@ -447,8 +455,8 @@ describe('the JavaScript language', () => {
       const obj = createObject();
       obj.addPoint();
 
-      //expect(obj.score()).toEqual();
-      //expect(typeof(obj.points)).toEqual();
+      expect(obj.score()).toEqual(1); //points = 0 and increments thanks to addPoint
+      expect(typeof(obj.points)).toEqual('undefined');
     });
 
     it('may create objects also with the module pattern', () => {
@@ -456,12 +464,12 @@ describe('the JavaScript language', () => {
         // write the code here
       }
 
-      /*
+      
       const obj = createObject(5, 'red');
       obj.incrementScoreIn(5);
       expect(obj.color).toEqual('red');
       expect(obj.points()).toEqual(10);
-      */
+      
     });
 
     it('can define constructors', () => {
